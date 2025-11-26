@@ -1,0 +1,717 @@
+On va faire les deux :
+
+* tout rendre **mobile-first et vraiment responsive**,
+* glisser quelques **glitchs “corpo qui bugge”** dans l’interface 😏
+
+La bonne nouvelle : tu gardes **toute ta structure de fichiers**. On va surtout :
+
+1. Ajouter la balise `viewport` dans les pages.
+2. Remplacer `css/style.css` par une version **mobile-first**.
+3. (Optionnel) Ajouter 2–3 classes pour les glitchs visuels.
+
+---
+
+## 1. À mettre dans *toutes* tes pages HTML
+
+Dans **`<head>`**, assure-toi d’avoir bien ça (ou remplace l’existant) :
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/style.css" />
+```
+
+Ensuite, sur les pages où tu veux des glitchs subtils, par exemple dans `index.html` :
+
+```html
+<h1 class="glitch-title">
+  FAUXNET<span class="accent glitch-layer">.corp</span>
+</h1>
+```
+
+Et sur un petit texte corpo bien menteur, par exemple dans `browser.html` :
+
+```html
+<span class="lock glitch-soft">🔒 100% sécurisé (promis)</span>
+```
+
+---
+
+## 2. Nouveau `css/style.css` (mobile-first + responsive + glitchs)
+
+👉 Remplace entièrement ton ancien `style.css` par celui-ci :
+
+```css
+/* RESET RAPIDE */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+:root {
+  --bg: #05060a;
+  --bg-alt: #101321;
+  --accent: #00e0ff;
+  --accent-soft: rgba(0, 224, 255, 0.25);
+  --danger: #ff3366;
+  --text: #f5f7ff;
+  --muted: #9ba3c3;
+  --radius: 16px;
+  --shadow: 0 14px 35px rgba(0, 0, 0, 0.65);
+  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "Fira Code", SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+}
+
+body {
+  background: radial-gradient(circle at top, #141931 0, #05060a 55%);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+/* ───────────────────────────────── NAVIGATION GLOBALE ───────────────────────── */
+
+.global-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+  background: rgba(5, 6, 15, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.global-nav .brand {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.global-nav .brand span {
+  color: var(--accent);
+}
+
+.global-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  overflow-x: auto;
+}
+
+.global-nav .nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.global-nav .nav-links a:hover {
+  color: var(--accent);
+}
+
+/* Desktop : nav plus large */
+@media (min-width: 768px) {
+  .global-nav {
+    padding: 0.7rem 1.5rem;
+  }
+
+  .global-nav .brand {
+    font-size: 1rem;
+  }
+
+  .global-nav .nav-links a {
+    font-size: 0.9rem;
+  }
+}
+
+/* ───────────────────────────────── LAYOUT GÉNÉRAL ───────────────────────── */
+
+.layout-center {
+  min-height: calc(100vh - 3.2rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.card {
+  background: linear-gradient(145deg, #101321, #070815);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-large {
+  width: 100%;
+  max-width: 640px;
+}
+
+@media (min-width: 768px) {
+  .card-large {
+    max-width: 720px;
+    padding: 2rem;
+  }
+}
+
+h1 {
+  font-size: 1.7rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 1.4rem;
+  font-size: 0.95rem;
+}
+
+.grid-buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+  margin-bottom: 1.3rem;
+}
+
+@media (min-width: 600px) {
+  .grid-buttons {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--accent), #7b61ff);
+  border-color: transparent;
+  color: #02030a;
+  font-weight: 600;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.small {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ───────────────────────────────── FAUX NAVIGATEUR ───────────────────────── */
+
+.browser-body {
+  padding: 0.7rem;
+}
+
+.browser-window {
+  width: 100%;
+  margin: 0 auto;
+  background: #05060a;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.browser-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.6rem;
+  background: linear-gradient(90deg, #15192b, #05060a);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.dot.red {
+  background: #ff5f57;
+}
+.dot.amber {
+  background: #febc2e;
+}
+.dot.green {
+  background: #28c840;
+}
+
+.browser-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding: 0.3rem;
+  background: #0b0e19;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tab {
+  background: transparent;
+  border-radius: 999px;
+  border: none;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.tab.active {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+}
+
+.browser-urlbar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.75rem;
+  background: #070a13;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.scheme {
+  color: var(--muted);
+}
+
+.lock {
+  margin-left: auto;
+  color: #58ff9a;
+}
+
+/* Mobile : colonne */
+.browser-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+}
+
+.browser-sidebar {
+  background: #05060f;
+  padding: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.browser-sidebar h2 {
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.browser-sidebar ul {
+  list-style: none;
+  margin-bottom: 0.6rem;
+}
+
+.link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0.35rem 0.25rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tiny {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.browser-viewport {
+  background: #05060a;
+  flex: 1;
+  min-height: 40vh;
+}
+
+.browser-viewport iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Desktop : sidebar à gauche, contenu à droite */
+@media (min-width: 900px) {
+  .browser-body {
+    padding: 2rem;
+  }
+
+  .browser-window {
+    max-width: 1100px;
+  }
+
+  .browser-main {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    min-height: 540px;
+  }
+
+  .browser-sidebar {
+    border-bottom: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* ───────────────────────────────── SITES INTERNES ───────────────────────── */
+
+.site-body {
+  background: #05060a;
+  color: var(--text);
+  font-family: var(--font);
+  padding: 1.1rem;
+}
+
+.site-header h1 {
+  font-size: 1.4rem;
+}
+
+.site-header p {
+  color: var(--muted);
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.site-main {
+  margin-top: 1.2rem;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.search-form .btn {
+  width: 100%;
+}
+
+.results {
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+@media (min-width: 640px) {
+  .search-form {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .search-form .btn {
+    width: auto;
+  }
+}
+
+/* ───────────────────────────────── CONSOLE CORPO ───────────────────────── */
+
+.console-body {
+  background: #02040a;
+}
+
+.console-wrap {
+  width: 100%;
+  max-width: 960px;
+  margin: 0.75rem auto 1rem;
+  border-radius: 12px;
+  background: #05060f;
+  border: 1px solid rgba(0, 224, 255, 0.3);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 4.5rem); /* nav + marges */
+}
+
+.console-header {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.console-output {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.console-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.prompt {
+  font-family: var(--mono);
+  color: var(--accent);
+}
+
+#console-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+/* ───────────────────────────────── TERMINAL ───────────────────────── */
+
+.terminal-body {
+  background: #02040a;
+}
+
+.terminal-screen {
+  height: calc(100vh - 4.5rem);
+  margin: 0.75rem;
+  padding: 0.7rem 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  background: #020308;
+  color: #00ff9d;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+#term-output {
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.term-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.term-prompt {
+  color: #00ff9d;
+}
+
+#term-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #00ff9d;
+  font-family: var(--mono);
+}
+
+/* ───────────────────────────────── ESPACE INTÉGRAL (WORKSPACE) ───────────────── */
+
+.workspace-card {
+  max-width: 1000px;
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 1rem 0;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.25rem;
+  border-radius: 999px;
+}
+
+.wtab {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.wtab.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+}
+
+.workspace-views {
+  position: relative;
+  flex: 1;
+  min-height: 50vh;
+}
+
+.workspace-view {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  display: none;
+}
+
+.workspace-view.active {
+  display: block;
+}
+
+.workspace-view iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Sur grands écrans : height contrôlée */
+@media (min-width: 768px) {
+  .workspace-card {
+    min-height: 75vh;
+  }
+}
+
+/* ───────────────────────────────── GLITCHS "CACHÉS" ───────────────────────── */
+
+/* Titre qui glitch légèrement (corpo qui se fissure) */
+.glitch-title {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-title .glitch-layer {
+  position: relative;
+  animation: glitch-shift 3.4s infinite steps(2, end);
+}
+
+.glitch-soft {
+  position: relative;
+  animation: glitch-soft 6s infinite;
+}
+
+@keyframes glitch-shift {
+  0%,
+  92%,
+  100% {
+    text-shadow: none;
+    transform: translate(0, 0);
+  }
+  93% {
+    text-shadow: -2px 0 var(--accent), 2px 0 #ff00aa;
+    transform: translate(1px, 0);
+  }
+  95% {
+    text-shadow: -1px 0 #ff00aa, 1px 0 var(--accent);
+    transform: translate(-1px, 0);
+  }
+}
+
+@keyframes glitch-soft {
+  0%,
+  96%,
+  100% {
+    text-shadow: none;
+  }
+  97% {
+    text-shadow: -1px 0 var(--accent-soft);
+  }
+  99% {
+    text-shadow: 1px 0 rgba(255, 0, 128, 0.5);
+  }
+}
+```
+
+---
+
+## 3. Ce que ça change concrètement côté UX
+
+* **Sur mobile (par défaut)**
+
+  * Tout est **une seule colonne** :
+
+    * sidebar du navigateur au-dessus, site en dessous
+    * formulaires verticaux
+    * boutons plein écran faciles à toucher
+  * Console et terminal occupent **quasi tout l’écran**, sans scroll horizontal.
+
+* **Sur tablette / desktop**
+
+  * `@media` réactive :
+
+    * sidebar à gauche, contenu à droite pour le navigateur,
+    * workspace plein écran avec onglets,
+    * boutons en grille 3 colonnes sur la page d’accueil.
+
+* **Glitchs discrets**
+
+  * le titre `FAUXNET.corp` “déconne” parfois,
+  * le cadenas “100% sécurisé” a des micro-bug visuels → message subliminal : *“ne crois pas tout ce que l’interface te raconte”*.
+
+---
+
+Si tu veux, je peux ensuite :
+
+* te proposer un **`corp-news.html`** et un **`corp-social.html`** très dysto, optimisés mobile,
+* avec des micro-indices dans le code source et l’UI pour les joueur·euses qui cherchent S.
