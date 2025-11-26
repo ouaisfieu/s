@@ -5,10 +5,25 @@
   <title>FAUXNET // Terminal</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="terminal-body">
-  <div id="terminal" class="terminal-screen">
-    <!-- contenu généré par JS -->
+<body>
+  <nav class="global-nav">
+    <a href="index.html" class="brand">FAUXNET<span>.corp</span></a>
+    <div class="nav-links">
+      <a href="workspace.html">Espace intégral</a>
+      <a href="browser.html">Navigateur</a>
+      <a href="console.html">Console</a>
+      <a href="terminal.html?theme=unix&user=invite">Terminal</a>
+    </div>
+  </nav>
+
+  <div class="terminal-screen">
+    <pre id="term-output"></pre>
+    <div class="term-input-row">
+      <span id="term-prompt" class="term-prompt"></span>
+      <input id="term-input" type="text" autocomplete="off" />
+    </div>
   </div>
+
   <script src="js/terminal.js"></script>
 </body>
 </html>
