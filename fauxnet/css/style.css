@@ -350,3 +350,47 @@ h1 {
   color: #00ff9d;
   overflow-y: auto;
 }
+
+
+
+
+
+.terminal-screen {
+  height: calc(100vh - 3rem);
+  margin: 1rem;
+  padding: 0.7rem 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  background: #020308;
+  color: #00ff9d;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+#term-output {
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.term-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.term-prompt {
+  color: #00ff9d;
+}
+#term-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #00ff9d;
+  font-family: var(--mono);
+}
+
