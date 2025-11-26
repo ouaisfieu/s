@@ -19,86 +19,61 @@
   </nav>
 
   <main class="layout-center">
-    <div class="card card-large md-card">
+    <div class="card card-large md-card md-viewer-card">
       <header class="md-header">
         <h1>Visionneuse Markdown</h1>
         <p class="subtitle">
-          Charge un fichier <code>.md</code> local ou fourni par FAUXNET.
+          Navigue dans une bibliothèque de fichiers <code>.md</code> :
+          <br />
+          ton dossier local <strong>ou</strong> le dossier <code>docs/</code> de FAUXNET.
         </p>
       </header>
 
-      <div class="md-viewer-actions">
-        <button id="mdv-open-btn">Ouvrir un fichier .md</button>
-        <input
-          type="file"
-          id="mdv-file-input"
-          accept=".md,.markdown,.txt"
-          style="display:none"
-        />
-        <span class="small">
-          Ou appelle cette page avec <code>?path=docs/ton-fichier.md</code>
-          pour charger un fichier du projet.
-        </span>
-      </div>
+      <section class="md-viewer-layout">
+        <aside class="md-viewer-sidebar">
+          <div class="md-viewer-actions">
+            <button id="mdv-scan-local">Scanner un dossier local</button>
+            <input
+              type="file"
+              id="mdv-dir-input"
+              webkitdirectory
+              multiple
+              style="display:none"
+            />
 
-      <article id="mdv-content" class="md-preview md-viewer-empty">
-        <p class="muted">
-          Aucun fichier chargé. Choisis un fichier ou utilise un paramètre
-          <code>?path=...</code>.
-        </p>
-      </article>
+            <button id="mdv-load-docs">Charger docs/ FAUXNET</button>
+            <span class="small">
+              Nécessite un fichier <code>docs/index.json</code>
+              listant la bibliothèque.
+            </span>
+          </div>
+
+          <div class="mdv-list-wrap">
+            <h2>Fichiers</h2>
+            <ul id="mdv-file-list" class="mdv-file-list">
+              <!-- fichiers listés ici -->
+            </ul>
+          </div>
+        </aside>
+
+        <section class="md-viewer-main">
+          <article id="mdv-content" class="md-preview md-viewer-empty">
+            <p class="muted">
+              Aucun fichier chargé.<br />
+              • Clique sur <strong>Scanner un dossier local</strong> pour
+              parcourir tes propres fichiers.<br />
+              • Ou sur <strong>Charger docs/ FAUXNET</strong> pour voir la
+              bibliothèque du projet.
+            </p>
+          </article>
+        </section>
+      </section>
     </div>
   </main>
 
+  <!-- parseur + éditeur (déjà en place) -->
   <script src="js/markdown.js"></script>
-  <script>
-    (function () {
-      const viewer = document.getElementById("mdv-content");
-      const fileInput = document.getElementById("mdv-file-input");
-      const openBtn = document.getElementById("mdv-open-btn");
-
-      if (!viewer) return;
-
-      // Utilise le parseur commun
-      const parse = window.FauxMarkdown?.parse || ((t) => t);
-
-      async function loadFromPath(path) {
-        try {
-          const res = await fetch(path);
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          const text = await res.text();
-          viewer.innerHTML = parse(text);
-          viewer.classList.remove("md-viewer-empty");
-        } catch (e) {
-          viewer.innerHTML =
-            "<p class='muted'>Impossible de charger le fichier : " +
-            path +
-            "</p>";
-        }
-      }
-
-      // Paramètre ?path=...
-      const params = new URLSearchParams(window.location.search);
-      const path = params.get("path");
-      if (path) {
-        loadFromPath(path);
-      }
-
-      // Fichier local
-      openBtn.addEventListener("click", () => fileInput.click());
-
-      fileInput.addEventListener("change", () => {
-        const file = fileInput.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const text = e.target.result;
-          viewer.innerHTML = parse(text);
-          viewer.classList.remove("md-viewer-empty");
-        };
-        reader.readAsText(file);
-      });
-    })();
-  </script>
+  <!-- nouvelle logique de visionneuse -->
+  <script src="js/markdown-viewer.js"></script>
 </body>
 </html>
