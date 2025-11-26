@@ -638,3 +638,136 @@ h1 {
     text-shadow: 1px 0 rgba(255, 0, 128, 0.5);
   }
 }
+
+
+
+
+/* ────────────────────────── MODULE MARKDOWN ────────────────────────── */
+
+.md-card {
+  width: 100%;
+}
+
+.md-header h1 {
+  font-size: 1.5rem;
+}
+
+.md-header .subtitle {
+  margin-top: 0.3rem;
+}
+
+.md-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1rem 0 0.8rem;
+}
+
+.md-toolbar button {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.md-toolbar button.primary {
+  background: linear-gradient(135deg, var(--accent), #7b61ff);
+  border-color: transparent;
+  color: #02030a;
+}
+
+.md-toolbar button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.md-toolbar-sep {
+  flex: 0 0 1px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0 0.2rem;
+}
+
+/* Layout mobile-first : pile verticale */
+.md-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
+}
+
+.md-pane {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  min-height: 160px;
+}
+
+.md-pane-header {
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+#md-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 0.6rem 0.7rem;
+  resize: vertical;
+  min-height: 150px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+#md-input:focus {
+  outline: none;
+}
+
+.md-preview {
+  flex: 1;
+  padding: 0.6rem 0.7rem;
+  font-size: 0.9rem;
+  overflow-y: auto;
+}
+
+/* Desktop : 2 colonnes */
+@media (min-width: 900px) {
+  .md-layout {
+    flex-direction: row;
+  }
+
+  .md-pane {
+    width: 50%;
+  }
+}
+
+/* Visionneuse */
+
+.md-viewer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.8rem 0 1rem;
+}
+
+.md-viewer-actions button {
+  align-self: flex-start;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.md-viewer-empty {
+  text-align: left;
+}
+
